@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 
 # NastyaBesch.github.io
  A personalized fairy tale generator for kids using SQL, React, Node.js, and GPT-4 API. It creates unique stories and stores favorite tales in a database, blending technology with imagination for engaging storytelling.
@@ -180,4 +178,4 @@ Your contributions will help make this project better for everyone. As I’m in 
 
 LinkedIn: www.linkedin.com/in/anastasia-beschaskina
 Email: kopylovaap8@gmail.com
->>>>>>> 6b4b3b7984132b6edc78a406ff03d68d91aeb385
+
