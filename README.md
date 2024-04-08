@@ -13,17 +13,59 @@ Explain why your project stands out and how it can benefit users. For example:
 
 The project fosters creativity and imagination in children, providing a unique storytelling experience. It's an educational tool that encourages reading and language learning through interactive, personalized content.
 
-## How Users Can Get Started with the Project
+## Getting Started
+To set up this project on your local machine, follow the instructions below:
 
-Provide a step-by-step guide on how to set up the project, including installation, configuration, and basic usage. For instance:
+Prerequisites
+Node.js installed on your system
+MySQL installed and running on your system
 
-1. Clone the repository: https://github.com/NastyaBesch/NastyaBesch.github.io
+### Clone the Repository
 
-2. Install the required dependencies:
+git clone https://github.com/NastyaBesch/NastyaBesch.github.io
+cd NastyaBesch.github.io
+
+### Install Dependencies
+
 npm install
 
-4. Start the application: npm start
-Visit `http://localhost:3000` on your browser to start generating fairy tales.
+### MySQL Database Setup
+
+Ensure MySQL is installed and running on your system. Configure your database connection details by creating a .env file at the root of your project with the following contents:
+
+DB_HOST=localhost
+DB_USER=myuser
+DB_PASS=mypassword
+DB_NAME=mydatabase
+Replace myuser, mypassword, and mydatabase with your actual database user, password, and database name.
+
+### Configure mysql2 Connection
+
+In your project, ensure you have a module (e.g., ./db/connectDB.js) that uses mysql2 to connect to your MySQL database using the environment variables defined in your .env file. Here's a basic example:
+
+const mysql = require('mysql2');
+require('dotenv').config();
+
+const connection = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME
+});
+
+connection.connect(error => {
+  if (error) throw error;
+  console.log("Successfully connected to the database.");
+});
+
+module.exports = connection;
+
+### Start the Server
+
+With the database configured and dependencies installed, you can start the server with:
+
+npm start
+The server will typically run on http://localhost:4000, allowing you to access your application.
 
 ## Features
 
