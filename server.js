@@ -1,0 +1,214 @@
+const express = require("express");
+const axios = require("axios");
+const app = express();
+const port = process.env.PORT || 4000;
+const cors = require("cors");
+const cron = require("node-cron");
+const bcrypt = require("bcrypt");
+const { v4: uuidv4 } = require("uuid");
+// const fs = require("fs");
+// const util = require("util");
+
+app.use(express.json());
+app.use(cors());
+app.use(express.static("public"));
+
+const connection = require("./public/connectDB");
+
+const rateLimit = require("express-rate-limit");
+
+// Load environment variables
+require("dotenv").config();
+
+
+app.use(express.json());
+
+
+
+// Handle POST requests to "/generateFairyTale"
+app.post("/generateFairyTale", async (req, res) => {
+  const { gender, age, language, category, firstName, friendsName, animal } =
+    req.body;
+
+  console.log("Request body:", req.body);
+
+  let prompt;
+  if (language === "russian") {
+    prompt = `Создайте название и сказку на русском языке в категории "${category}" для ${firstName} и друга ${friendsName}, ${age}-летний ${gender}, который любит ${animal}.`;
+  } else if (language === "hebrew") {
+    prompt = `צור כותרת וסיפור בעברית בקטגוריה "${category}" ל ${firstName} ולחבר ${friendsName}, בן ${age} שאוהב ${animal}.`;
+  } else {
+    prompt = `Create a title and a fairy tale in ${language} in the category "${category}" for ${firstName} and their friend ${friendsName}, a ${age}-year-old ${gender} who loves ${animal}.`;
+  }
+
+  try {
+    const response = await axios.post(
+      "https://api.openai.com/v1/chat/completions",
+      {
+        model: "gpt-3.5-turbo",
+        messages: [
+          { role: "system", content: "Generate a fairy tale with a title." },
+          { role: "user", content: prompt },
+        ],
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+        },
+      }
+    );
+
+    const generatedResponse = response.data.choices[0].message.content;
+    const [titleWithPrefix, ...storyParts] = generatedResponse.split("\n\n");
+    const regex = /^(Title: |כותרת: |Hазвание: )/i;
+
+    // Replace the matched prefix with an empty string
+    const title = titleWithPrefix.replace(regex, "");
+    const generatedText = storyParts.join("\n\n");
+
+    setTimeout(() => {
+      res.json({ title, content: generatedText });
+    }, 3000);
+  } catch (error) {
+    console.error("Error:", error);
+    if (error.response?.status === 429) {
+      console.log(
+        "Rate limit exceeded. Implementing retry logic or notifying the user."
+      );
+      res
+        .status(429)
+        .json({ message: "Too many requests. Please try again later." });
+    } else {
+      res.status(500).json({ message: "An unexpected error occurred." });
+    }
+  }
+});
+
+// Endpoint to save a story
+app.post("/api/saveStory", async (req, res) => {
+  const storyId = uuidv4();
+  const { title, content, userId } = req.body;
+
+  const query =
+    "INSERT INTO stories (story_id, title, content, user_id) VALUES (?, ?, ?, ?)";
+  connection.query(query, [storyId, title, content, userId], (err, results) => {
+    if (err) {
+      console.error("Error saving story:", err);
+      return res.status(500).json({ message: "Failed to save the story" });
+    }
+    console.log("Story saved successfully!", results);
+    res.status(200).json({ message: "Story saved successfully", id: storyId });
+  });
+});
+
+// Endpoint to fetch stories
+app.get("/api/stories", (req, res) => {
+  const { userId } = req.query;
+
+  const query = "SELECT * FROM stories WHERE user_id = ?";
+  connection.query(query, [userId], (err, results) => {
+    if (err) {
+      console.error("Error fetching stories by userId:", err);
+      return res.status(500).json({ message: "Failed to fetch stories" });
+    }
+    res.json(results);
+  });
+});
+
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, 
+});
+
+// //Apply the rate limiting middleware to your routes
+app.use("/api/registration", apiLimiter);
+app.use("/api/login", apiLimiter);
+
+//Log
+
+app.post("/api/registration", async (req, res) => {
+  const { userName, email, password } = req.body;
+  console.log(req.body);
+
+  try {
+    // Check if email already exists
+    const results = await findUserByEmail(email);
+    console.log(results);
+    if (results) {
+      return res.status(409).json({ message: "Email already exists" });
+    }
+    console.log("yes");
+    // Email does not exist, proceed with creating new user
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const userId = uuidv4();
+    await insertUser(userId, userName, email, hashedPassword);
+    res.status(201).json({
+      message: "User created successfully",
+      userId: userId,
+      userName: userName,
+    });
+  } catch (error) {
+    console.error("Error during registration:", error);
+    res.status(500).json({ message: "Server error during registration" });
+  }
+});
+
+async function insertUser(userId, userName, email, hashedPassword) {
+  // Placeholder for your user insertion logic
+  return new Promise((resolve, reject) => {
+    const insertQuery =
+      "INSERT INTO users (user_id, userName, email, password) VALUES (?, ?, ?, ?)";
+    connection.query(
+      insertQuery,
+      [userId, userName, email, hashedPassword],
+      (err, results) => {
+        if (err) return reject(err);
+        resolve(results);
+      }
+    );
+  });
+}
+
+// Login function
+
+app.post("/api/login", async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await findUserByEmail(email);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (isMatch) {
+      console.log(user.userName);
+      res.json({
+        message: "Login successful",
+        userId: user.user_id,
+        userName: user.userName,
+      });
+    } else {
+      res.status(401).json({ message: "Password is incorrect" });
+    }
+  } catch (err) {
+    console.error("Login error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+async function findUserByEmail(email) {
+  return new Promise((resolve, reject) => {
+    const query = "SELECT * FROM users WHERE email = ?";
+    connection.query(query, [email], (err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results[0] || null);
+      }
+    });
+  });
+}
+
+app.listen(port, () => {
+  console.log(`Server listening at http://localhost:${port}`);
+});

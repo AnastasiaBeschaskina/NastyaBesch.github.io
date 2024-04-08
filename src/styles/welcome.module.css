@@ -1,0 +1,57 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.mainText
+{
+font-size: 1rem;
+}
+
+
+.contentContainer { 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 80%;
+}
+
+.formSection {
+  display: flex;
+  flex-direction: column;
+  margin: 0; 
+  justify-content: flex-start;
+  
+}
+
+@media (max-width: 1191px) {
+  .wrapper {
+    width: 100%;
+  }
+}
+
+@media (max-width: 991px) {
+  .wrapper {
+    width: 90%;
+    display: block;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+   
+  }
+  .contentContainer {
+    width: 90%;
+    justify-content: center;
+  }
+
+  .formSection {
+    width: 90%;
+    justify-content: center;
+    align-items: center;
+  }
+ 
+}
+

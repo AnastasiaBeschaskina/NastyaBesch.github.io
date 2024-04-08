@@ -1,0 +1,155 @@
+@import url("https://fonts.googleapis.com/css2?family=Fredoka+One&family=Open+Sans&family=Indie+Flower&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Kalam&display=swap");
+
+:root {
+  --font-size-base: 18px;
+  --font-size-mobile: 14px;
+  --global-xs-spacing: 1em;
+  --global-sm-spacing: 1.5rem;
+  --global-md-spacing: 2rem;
+  --global-lg-spacing: 2.5em;
+  --global-xl-spacing: 3.5em;
+  --global-xxl-spacing: 5rem;
+
+  --primary-color: #216c8c;
+  --second-color: #53537d;
+  --third-color: #70547a;
+  --quarter-color: #f5b7b1;
+  --text-color: #53537d;
+  --btn--color: #8b80bb;
+
+  --global-body-font-family: "Open Sans", sans-serif;
+  /* --global-heading-font-family: 'Varela Round', 'Roboto Rounded', 'Circular', sans-serif;  */
+  /* --global-heading-font-family: 'Permanent Marker', cursive; */
+  --global-heading-font-family: "Kalam", cursive;
+  /* "Snell Roundhand", cursive;  */
+  --btn: "Indie Flower", cursive;
+}
+
+html {
+  font-size: var(--font-size-base);
+  scroll-behavior: smooth;
+}
+
+body {
+  font-style: normal;
+  font-weight: normal;
+  font-family: var(--global-body-font-family);
+  margin: 0;
+  width: 100%;
+  line-height: 1.4em;
+  cursor: url("../public/images/44.png") 16 16, pointer;
+}
+
+h2,
+h3,
+h4,
+h5 {
+  font-family: var(--global-heading-font-family);
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  /* text-shadow: 0px 0px 5px rgba(128,128,153,0.5); */
+}
+h2,
+h3 {
+  color: var(--primary-color);
+  font-size: 1.7rem;
+}
+h1 {
+  font-size: 2rem;
+  font-family: var(--global-heading-font-family);
+  /* text-shadow: 0px 0px 10px rgba(250, 250, 250, 0.9); */
+  color: var(--second-color);
+  text-align: center;
+}
+
+p {
+  font-size: 1rem;
+  color: var(--text-color);
+  font-family: var(--global-body-font-family);
+  font-size: 1rem;
+}
+
+a {
+  font-family: var(--global-heading-font-family);
+  display: inline-block;
+  font-size: 1.5rem;
+  color: var(--second-color);
+}
+:where(.css-dev-only-do-not-override-1xg9z9n).ant-pagination
+  .ant-pagination-item-active
+  a {
+  background-color: var(--third-color);
+  color: white;
+  border-radius: 6px;
+  text-align: center;
+}
+:where(.css-dev-only-do-not-override-1xg9z9n) a:hover {
+  color: black;
+}
+.ant-card-body {
+  padding: 0 !important;
+}
+.ant-select .ant-select-selection-placeholder,
+.ant-select .ant-select-selection-item {
+  text-align: start;
+  font-family: var(--global-body-font-family);
+  font-size: 1rem;
+}
+
+.ant-input-outlined {
+  text-align: start;
+  font-family: var(--global-body-font-family);
+  font-size: 1rem;
+  /* cursor: url('../public/images/44.png'), auto; */
+}
+
+.ant-input
+  .ant-input-lg
+  .css-dev-only-do-not-override-1xg9z9n
+  .ant-input-outlined {
+  font-family: var(--global-body-font-family);
+  font-size: 1rem;
+}
+
+.ant-input:hover {
+  border-color: var(--primary-color);
+}
+.ant-input-affix-wrapper:hover {
+  border-color: var(--primary-color);
+}
+
+.ant-select-selector:hover {
+  border-color: var(--primary-color) !important;
+}
+
+:where(.css-dev-only-do-not-override-1xg9z9n).ant-pagination
+  .ant-pagination-item-active:hover {
+  border-color: white;
+  background-color: #ffffff;
+}
+
+:where(.css-dev-only-do-not-override-1xg9z9n).ant-pagination
+  .ant-pagination-item-active {
+  border-color: white;
+}
+
+.ant-pagination {
+  padding-top: var(--global-sm-spacing);
+}
+
+:where(.css-dev-only-do-not-override-1xg9z9n) a:hover {
+  color: black !important;
+}
+
+a:hover {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+}
+
+@media (max-width: 768px) {
+  :root {
+    --font-size-base: var(--font-size-mobile);
+  }
+}
