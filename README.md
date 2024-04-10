@@ -93,15 +93,13 @@ Future Text-to-Speech Conversion: In the pipeline is the addition of text-to-spe
 The following code snippet illustrates how to handle POST requests for generating personalized fairy tales using our project's API endpoint. This example demonstrates integration with the OpenAI API, specifically utilizing the "gpt-3.5-turbo" model to generate creative content based on user input. This code can be adapted and integrated into your own projects, providing a basis for implementing custom storytelling or content generation features.
 
 Handling POST Requests to Generate Fairy Tales
+
 const axios = require('axios');
 const express = require('express');
 const app = express();
 app.use(express.json());
-
 app.post("/generateFairyTale", async (req, res) => {
-  const { gender, language, category, firstName, friendsName, animal } =
-    req.body;
-
+  const { gender, language, category, firstName, friendsName, animal } = req.body;
   let prompt;
   if (language === "russian") {
     prompt = `Создайте название и сказку на русском языке в категории "${category}" для ${firstName}${
