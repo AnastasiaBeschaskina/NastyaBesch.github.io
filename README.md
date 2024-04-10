@@ -96,13 +96,11 @@ Handling POST Requests to Generate Fairy Tales
 const axios = require('axios');
 const express = require('express');
 const app = express();
+app.use(express.json());
 
-app.use(express.json()); // for parsing application/json
-
-// Handle POST requests to "/generateFairyTale"
 app.post("/generateFairyTale", async (req, res) => {
-  // Destructuring the request body to extract required fields
-  const { gender, language, category, firstName, friendsName, animal } = req.body;
+  const { gender, language, category, firstName, friendsName, animal } =
+    req.body;
 
   let prompt;
   if (language === "russian") {
@@ -120,7 +118,6 @@ app.post("/generateFairyTale", async (req, res) => {
   }
 
   try {
-    // Sending the constructed prompt to OpenAI's API
     const response = await axios.post(
       "https://api.openai.com/v1/chat/completions",
       {
@@ -138,24 +135,26 @@ app.post("/generateFairyTale", async (req, res) => {
       }
     );
 
-    // Processing the response from OpenAI
     const generatedResponse = response.data.choices[0].message.content;
     const [titleWithPrefix, ...storyParts] = generatedResponse.split("\n\n");
-    const regex = /^(Title: |כותרת: |Название: )/i;
+    const regex = /^(Title: |כותרת: |Hазвание: )/i;
 
-    // Extracting the title and assembling the story parts
+    // Replace the matched prefix with an empty string
     const title = titleWithPrefix.replace(regex, "");
     const generatedText = storyParts.join("\n\n");
 
-    // Sending the generated fairy tale as a response
     setTimeout(() => {
       res.json({ title, content: generatedText });
     }, 3000);
   } catch (error) {
     console.error("Error:", error);
     if (error.response?.status === 429) {
-      console.log("Rate limit exceeded. Implementing retry logic or notifying the user.");
-      res.status(429).json({ message: "Too many requests. Please try again later." });
+      console.log(
+        "Rate limit exceeded. Implementing retry logic or notifying the user."
+      );
+      res
+        .status(429)
+        .json({ message: "Too many requests. Please try again later." });
     } else {
       res.status(500).json({ message: "An unexpected error occurred." });
     }
