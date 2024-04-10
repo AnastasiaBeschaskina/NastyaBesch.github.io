@@ -102,19 +102,21 @@ app.use(express.json()); // for parsing application/json
 // Handle POST requests to "/generateFairyTale"
 app.post("/generateFairyTale", async (req, res) => {
   // Destructuring the request body to extract required fields
-  const { gender, age, language, category, firstName, friendsName, animal } = req.body;
-
-  console.log("Request body:", req.body);
+  const { gender, language, category, firstName, friendsName, animal } = req.body;
 
   let prompt;
-
-  // Constructing the prompt based on the language specified in the request
   if (language === "russian") {
-    prompt = `Создайте название и сказку на русском языке в категории "${category}" для ${firstName} и друга ${friendsName}, ${age}-летний ${gender}, который любит ${animal}.`;
+    prompt = `Создайте название и сказку на русском языке в категории "${category}" для ${firstName}${
+      friendsName ? ` и друга ${friendsName}` : ""
+    }, ${gender}, который любит ${animal}.`;
   } else if (language === "hebrew") {
-    prompt = `צור כותרת וסיפור בעברית בקטגוריה "${category}" ל ${firstName} ולחבר ${friendsName}, בן ${age} שאוהב ${animal}.`;
+    prompt = `צור כותרת וסיפור בעברית בקטגוריה "${category}" ל${firstName}${
+      friendsName ? ` ולחבר ${friendsName}` : ""
+    }, שאוהב ${animal}.`;
   } else {
-    prompt = `Create a title and a fairy tale in ${language} in the category "${category}" for ${firstName} and their friend ${friendsName}, a ${age}-year-old ${gender} who loves ${animal}.`;
+    prompt = `Create a title and a fairy tale in ${language} in the category "${category}" for ${firstName}${
+      friendsName ? ` and their friend ${friendsName}` : ""
+    }, ${gender} who loves ${animal}.`;
   }
 
   try {
