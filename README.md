@@ -93,32 +93,29 @@ Future Text-to-Speech Conversion: In the pipeline is the addition of text-to-spe
 The following code snippet illustrates how to handle POST requests for generating personalized fairy tales using our project's API endpoint. This example demonstrates integration with the OpenAI API, specifically utilizing the "gpt-3.5-turbo" model to generate creative content based on user input. This code can be adapted and integrated into your own projects, providing a basis for implementing custom storytelling or content generation features.
 
 Handling POST Requests to Generate Fairy Tales
+
 const axios = require('axios');
 const express = require('express');
 const app = express();
-
-app.use(express.json()); // for parsing application/json
-
-// Handle POST requests to "/generateFairyTale"
+app.use(express.json());
 app.post("/generateFairyTale", async (req, res) => {
-  // Destructuring the request body to extract required fields
-  const { gender, age, language, category, firstName, friendsName, animal } = req.body;
-
-  console.log("Request body:", req.body);
-
+  const { gender, language, category, firstName, friendsName, animal } = req.body;
   let prompt;
-
-  // Constructing the prompt based on the language specified in the request
   if (language === "russian") {
-    prompt = `Создайте название и сказку на русском языке в категории "${category}" для ${firstName} и друга ${friendsName}, ${age}-летний ${gender}, который любит ${animal}.`;
+    prompt = `Создайте название и сказку на русском языке в категории "${category}" для ${firstName}${
+      friendsName ? ` и друга ${friendsName}` : ""
+    }, ${gender}, который любит ${animal}.`;
   } else if (language === "hebrew") {
-    prompt = `צור כותרת וסיפור בעברית בקטגוריה "${category}" ל ${firstName} ולחבר ${friendsName}, בן ${age} שאוהב ${animal}.`;
+    prompt = `צור כותרת וסיפור בעברית בקטגוריה "${category}" ל${firstName}${
+      friendsName ? ` ולחבר ${friendsName}` : ""
+    }, שאוהב ${animal}.`;
   } else {
-    prompt = `Create a title and a fairy tale in ${language} in the category "${category}" for ${firstName} and their friend ${friendsName}, a ${age}-year-old ${gender} who loves ${animal}.`;
+    prompt = `Create a title and a fairy tale in ${language} in the category "${category}" for ${firstName}${
+      friendsName ? ` and their friend ${friendsName}` : ""
+    }, ${gender} who loves ${animal}.`;
   }
 
   try {
-    // Sending the constructed prompt to OpenAI's API
     const response = await axios.post(
       "https://api.openai.com/v1/chat/completions",
       {
@@ -136,24 +133,26 @@ app.post("/generateFairyTale", async (req, res) => {
       }
     );
 
-    // Processing the response from OpenAI
     const generatedResponse = response.data.choices[0].message.content;
     const [titleWithPrefix, ...storyParts] = generatedResponse.split("\n\n");
-    const regex = /^(Title: |כותרת: |Название: )/i;
+    const regex = /^(Title: |כותרת: |Hазвание: )/i;
 
-    // Extracting the title and assembling the story parts
+    // Replace the matched prefix with an empty string
     const title = titleWithPrefix.replace(regex, "");
     const generatedText = storyParts.join("\n\n");
 
-    // Sending the generated fairy tale as a response
     setTimeout(() => {
       res.json({ title, content: generatedText });
     }, 3000);
   } catch (error) {
     console.error("Error:", error);
     if (error.response?.status === 429) {
-      console.log("Rate limit exceeded. Implementing retry logic or notifying the user.");
-      res.status(429).json({ message: "Too many requests. Please try again later." });
+      console.log(
+        "Rate limit exceeded. Implementing retry logic or notifying the user."
+      );
+      res
+        .status(429)
+        .json({ message: "Too many requests. Please try again later." });
     } else {
       res.status(500).json({ message: "An unexpected error occurred." });
     }
