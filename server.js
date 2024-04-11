@@ -6,6 +6,7 @@ const cors = require("cors");
 const cron = require("node-cron");
 const bcrypt = require("bcrypt");
 const { v4: uuidv4 } = require("uuid");
+const path = require("path");
 // const fs = require("fs");
 // const util = require("util");
 
@@ -13,7 +14,8 @@ app.use(express.json());
 app.use(cors());
 app.use(express.static("public"));
 
-const connection = require("./public/connectDB");
+const connectDBPath = path.join(__dirname, "public", "connectDB");
+const connection = require(connectDBPath);
 
 const rateLimit = require("express-rate-limit");
 
