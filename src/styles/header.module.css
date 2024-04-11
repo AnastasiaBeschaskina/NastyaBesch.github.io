@@ -53,3 +53,27 @@
 .navLink:hover {
   color: var(--quarter-color);
 }
+
+.mobileNavMenu {
+  display: none;
+}
+
+.menuToggleIcon {
+  display: none; 
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+ .nav {
+    display: none; /* Скрываем стандартное меню */
+    flex-direction: column;
+  }
+  .mobileNavMenu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .menuToggleIcon {
+    display: block; /* Показываем иконку меню */
+  }
+}

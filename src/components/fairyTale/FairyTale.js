@@ -4,10 +4,26 @@ import CustomButton from "../buttons/Button";
 import { CloseOutlined } from "@ant-design/icons";
 import { splitText } from "../../utils/textUtils";
 import styles from "../../styles/fairyTale.module.css";
+import { franc, francAll } from "franc";
 
-const FairyTale = ({ title, content, loading, onClose, isGuest, buttons }) => {
+const FairyTale = ({
+  title,
+  content,
+  loading,
+  onClose,
+  isGuest,
+  buttons,
+}) => {
   const [firstHalf, setFirstHalf] = useState([]);
   const [secondHalf, setSecondHalf] = useState([]);
+  const [isRTL, setIsRTL] = useState(false);
+
+  useEffect(() => {
+    if (content) {
+      const langCode = franc(content);
+      setIsRTL(langCode === "heb");
+    }
+  }, [content]);
 
   useEffect(() => {
     if (!loading && content) {
@@ -24,6 +40,10 @@ const FairyTale = ({ title, content, loading, onClose, isGuest, buttons }) => {
         backgroundImage: "url(/images/openBookBackGround.jpg)",
         backgroundSize: "cover",
         backgroundPosition: "center",
+        backgroundRepeat: "repeat",
+        boxShadow:
+          "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+        direction: isRTL ? "rtl" : "ltr",
       }}
     >
       <Button

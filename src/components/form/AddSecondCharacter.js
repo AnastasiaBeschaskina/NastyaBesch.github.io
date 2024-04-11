@@ -3,7 +3,7 @@ import CustomInput from "../buttons/Input";
 import { Card } from "antd";
 import styles from "../../styles/addSecondCharacter.module.css";
 
-const AddSecondCharacter = ({ formData, handleChange, error }) => {
+const AddSecondCharacter = ({ formData, handleChange, genderError, nameError }) => {
   const [selectedGender, setSelectedGender] = useState("");
   
   const handleGenderChange = (gender) => {
@@ -17,17 +17,18 @@ const AddSecondCharacter = ({ formData, handleChange, error }) => {
   ];
 
   return (
-     <div className={styles.container}>
+    <div className={styles.container}>
       <div className={styles.inputContainer}>
         <CustomInput
-          placeholder="Pick your adventure buddy"
+          placeholder="Adventure Buddy"
           id="friendsName"
           value={formData.friendsName}
           onChange={(e) => handleChange("friendsName", e.target.value)}
+          status={nameError ? "error" : ""}
         />
       </div>
       <div className={styles.genderSelectionContainer}>
-        <p style={{ color: error ? "red" : "rgba(0, 0, 0, 0.25)" }}>
+        <p style={{ color: genderError ? "red" : "rgba(0, 0, 0, 0.25)" }}>
           Choose gender
         </p>
         {genderOptions.map((option) => (
@@ -45,7 +46,7 @@ const AddSecondCharacter = ({ formData, handleChange, error }) => {
             />
           </Card>
         ))}
-      </div> 
+      </div>
     </div>
   );
 };

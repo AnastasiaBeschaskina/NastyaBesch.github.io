@@ -21,9 +21,9 @@
   border-radius: 16px;
   border: 2px solid rgba(0, 0, 0, 0.25);
   box-shadow: 0 4px 6px 6px rgba(0, 0, 0, 0.25);
-  background-image: url("../../public/images/Firefly_белый_фон_с_блестками_золотыми_и_бежевыми_33526.jpg");
+  background-image: url("../../public/images/backGround1.jpg");
   background-size: cover;
-  background-position: center; 
+  background-position: start; 
   padding: var(--global-sm-spacing);
   margin: 0 10px ;
 }

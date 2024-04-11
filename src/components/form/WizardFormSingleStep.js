@@ -6,7 +6,6 @@ import SelectAnimal from "./SelectAnimal";
 import AddSecondCharacter from "./AddSecondCharacter";
 import { createFairyTale } from "../../utils/generateFairyTale";
 import styles from "../../styles/WizardForm.module.css";
-import { Flex } from "antd";
 import { validateFormData } from "../../utils/validations";
 
 const WizardFormSingleStep = ({
@@ -26,9 +25,6 @@ const WizardFormSingleStep = ({
 
   const [validationErrors, setValidationErrors] = useState({});
   const [formError, setFormError] = useState(true);
-
-  const leftTextRef = useRef(null);
-  const rightTextRef = useRef(null);
 
   const imageRef = useRef(null);
   const formInnerRef = useRef(null);
@@ -149,7 +145,8 @@ const WizardFormSingleStep = ({
           handleChange={handleChange}
         /> */}
         <AddSecondCharacter
-          error={validationErrors.gender}
+          genderError={validationErrors.gender}
+          nameError={validationErrors.friendsName}
           formData={formData.friendsName}
           handleChange={handleChange}
         />

@@ -3,7 +3,7 @@ import WizardFormSingleStep from "../components/form/WizardFormSingleStep";
 import styles from "../styles/welcome.module.css";
 import FairyTale from "../components/fairyTale/FairyTale";
 import { saveStory } from "../utils/buttonActions";
-import {createFairyTale, createFairyTaleAgain} from "../utils/generateFairyTale";
+import {createFairyTale} from "../utils/generateFairyTale";
 
 const Welcome = ({ userId }) => {
   const [fairyTaleData, setFairyTaleData] = useState(null);
@@ -48,22 +48,6 @@ const Welcome = ({ userId }) => {
       }
     }
   }, [userId]);
-
-  // // Create a fairy tale and save it locally if user is a guest
-  // const handleCreateFairyTale = async (e) => {
-  //   e.preventDefault();
-  //   setIsLoading(true);
-
-  //   try {
-  //     const data = await createFairyTale(formData);
-  //     setFairyTaleData(data);
-  //     setIsSaved(false);
-  //   } catch (error) {
-  //     console.error("Failed to create fairy tale", error);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
 
   if (userId === "guest" && fairyTaleData) {
     localStorage.setItem("fairyTaleData", JSON.stringify(fairyTaleData)); // Save for guests

@@ -5,7 +5,6 @@ import FairyTale from "../components/fairyTale/FairyTale";
 import { listen } from "../../src/utils/buttonActions";
 import styles from "../styles/gallery.module.css";
 import { useFetchStories } from "../hooks/useFetchStories";
-import GalleryPageUserGuest from "./GallaryPageUserGuest";
 
 const pageSize = 6;
 
@@ -13,7 +12,7 @@ const GalleryPage = ({ userId }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState("");
   const [selectedStory, setSelectedStory] = useState(null);
-  const buttons = [{ content: "Listen", onClick: listen }];
+  const buttons =  [];//[{ content: "Listen", onClick: listen }];
   const { stories } = useFetchStories(userId);
 
   const filteredStories = stories.filter(
@@ -34,10 +33,6 @@ const GalleryPage = ({ userId }) => {
     setCurrentPage(page);
     handleScrollToStories();
   };
-
-  // if (userId === "guest" || filteredStories.length === 0) {
-  //   return <GalleryPageUserGuest />;
-  // }
 
   return (
     <div className={styles.galleryContainer} id="stories">
