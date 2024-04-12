@@ -44,16 +44,6 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-// POST request to login endpoint
-app.post("/api/login", async (req, res) => {
-  console.log("gggggh")
-  const { email, password } = req.body;
-  try {
-    // Your login logic here
-  } catch (error) {
-    // Error handling
-  }
-});
 
 // Handle POST requests to "/generateFairyTale"
 app.post("/generateFairyTale", async (req, res) => {
