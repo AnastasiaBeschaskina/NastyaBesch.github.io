@@ -1,7 +1,7 @@
 const express = require("express");
 const axios = require("axios");
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3001;
 const cors = require("cors");
 const cron = require("node-cron");
 const bcrypt = require("bcrypt");
@@ -10,25 +10,49 @@ const path = require("path");
 // const fs = require("fs");
 // const util = require("util");
 
-app.use(express.json());
-app.use(cors());
-app.use(express.static("public"));
-
-const connectDBPath = path.join(__dirname, "public", "connectDB");
-const connection = require(connectDBPath);
-
+// Import rateLimit module
 const rateLimit = require("express-rate-limit");
 
-// Load environment variables
-require("dotenv").config();
-
-
+// Middleware to parse JSON bodies
 app.use(express.json());
 
+// Serve static files from the 'public' directory
+app.use(express.static("public"));
+
+// Serve React build files
 app.use(express.static(path.join(__dirname, 'build')));
 
+
+// Define allowed origins
+const allowedOrigins = [
+  "https://personal-fairytale-a48db14070ba.herokuapp.com"];
+
+// Apply CORS middleware
+app.use(cors({
+  origin: function (origin, callback) {
+    // Check if the request origin is allowed
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  }
+}));
+
+// Route for all other requests to serve React app
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
+// POST request to login endpoint
+app.post("/api/login", async (req, res) => {
+  console.log("gggggh")
+  const { email, password } = req.body;
+  try {
+    // Your login logic here
+  } catch (error) {
+    // Error handling
+  }
 });
 
 // Handle POST requests to "/generateFairyTale"
@@ -132,12 +156,13 @@ const apiLimiter = rateLimit({
 });
 
 // //Apply the rate limiting middleware to your routes
-app.use("/api/registration", apiLimiter);
-app.use("/api/login", apiLimiter);
+// app.use("/api/registration", apiLimiter);
+// app.use("/api/login", apiLimiter);
 
 //Log
 
 app.post("/api/registration", async (req, res) => {
+  console.log("reg");
   const { userName, email, password } = req.body;
   console.log(req.body);
 
@@ -183,6 +208,7 @@ async function insertUser(userId, userName, email, hashedPassword) {
 // Login function
 
 app.post("/api/login", async (req, res) => {
+  console.log("Incoming POST request to /api/login");
   const { email, password } = req.body;
   try {
     const user = await findUserByEmail(email);

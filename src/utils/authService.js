@@ -2,11 +2,15 @@ import axios from "axios";
 import { message } from "antd";
 
 export const handleLogin = async (email, password) => {
+  console.log(email);
   try {
-    const response = await axios.post("http://localhost:4000/api/login", {
-      email,
-      password,
-    });
+    const response = await axios.post(
+      "https://personal-fairytale.herokuapp.com/api/login",
+      {
+        email,
+        password,
+      }
+    );
     if (response.data.userId) {
       return {
         success: true,
@@ -32,7 +36,8 @@ export const handleRegistration = async (userName, email, password, navigate) =>
   console.log("handleRegistration");
   try {
     const response = await axios.post(
-      "http://localhost:4000/api/registration",
+      // "http://localhost:4000/api/registration",
+     "https://personal-fairytale.herokuapp.com/api/login",
       {
         userName,
         email,
