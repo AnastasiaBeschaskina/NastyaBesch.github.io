@@ -25,7 +25,9 @@ app.use(express.static(path.join(__dirname, 'build')));
 
 // Define allowed origins
 const allowedOrigins = [
-  "https://personal-fairytale-a48db14070ba.herokuapp.com"];
+  "https://personal-fairytale-a48db14070ba.herokuapp.com",
+  "http://localhost:3000",
+];
 
 // Apply CORS middleware
 app.use(cors({

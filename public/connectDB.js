@@ -1,9 +1,16 @@
-const mysql = require("mysql2");
+const mysql = require("mysql");
 require("dotenv").config();
 
-const jawsDbUrl = process.env.JAWSDB_MARIA_URL;
+const url = require("url");
 
-const con = mysql.createConnection(jawsDbUrl);
+const dbUrl = new URL(process.env.JAWSDB_MARIA_URL);
+const con = mysql.createConnection({
+  host: dbUrl.hostname,
+  user: dbUrl.username,
+  password: dbUrl.password,
+  database: dbUrl.pathname.replace(/^\//, ""), // Remove leading slash from database path
+  port: dbUrl.port,
+});
 
 con.connect((err) => {
   if (err) {
