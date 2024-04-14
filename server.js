@@ -22,11 +22,13 @@ app.use(express.static("public"));
 // Serve React build files
 app.use(express.static(path.join(__dirname, 'build')));
 
-
+// Import the query function from your database configuration file
+const query = require("./public/connectDB");
 // Define allowed origins
 const allowedOrigins = [
   "https://personal-fairytale-a48db14070ba.herokuapp.com",
   "http://localhost:3000",
+  "http://localhost:3001",
 ];
 
 // Apply CORS middleware
@@ -225,16 +227,13 @@ app.post("/api/login", async (req, res) => {
 });
 
 async function findUserByEmail(email) {
-  return new Promise((resolve, reject) => {
+  try {
     const query = "SELECT * FROM users WHERE email = ?";
-    connection.query(query, [email], (err, results) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(results[0] || null);
-      }
-    });
-  });
+    const results = await query(query, [email]); 
+    return results[0] || null;
+  } catch (error) {
+    throw error;
+  }
 }
 
 app.listen(port, () => {
