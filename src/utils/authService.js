@@ -5,7 +5,7 @@ export const handleLogin = async (email, password) => {
   console.log(email);
   try {
     const response = await axios.post(
-      "https://personal-fairytale.herokuapp.com/api/login",
+      "https://personal-fairytale-a48db14070ba.herokuapp.com/api/login",
       {
         email,
         password,
@@ -37,7 +37,7 @@ export const handleRegistration = async (userName, email, password, navigate) =>
   try {
     const response = await axios.post(
       // "http://localhost:4000/api/registration",
-      "https://localhost:3000//api/login",
+      "https://personal-fairytale-a48db14070ba.herokuapp.com/api/registration",
       {
         userName,
         email,

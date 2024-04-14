@@ -1,23 +1,27 @@
 const mysql = require("mysql");
 require("dotenv").config();
-
 const url = require("url");
 
 const dbUrl = new URL(process.env.JAWSDB_MARIA_URL);
-const con = mysql.createConnection({
+
+const poolConfig = {
   host: dbUrl.hostname,
   user: dbUrl.username,
   password: dbUrl.password,
-  database: dbUrl.pathname.replace(/^\//, ""), // Remove leading slash from database path
+  database: dbUrl.pathname.slice(1), 
   port: dbUrl.port,
-});
+};
 
-con.connect((err) => {
-  if (err) {
-    console.log("Error, Failed to connect to the database", err);
-    return;
-  }
-  console.log("Connection Successful");
-});
+const pool = mysql.createPool(poolConfig);
 
-module.exports = con;
+
+const query = (sql, params) =>
+  new Promise((resolve, reject) => {
+    pool.query(sql, params, (err, results) => {
+      if (err) reject(err);
+      else resolve(results);
+    });
+  });
+
+
+module.exports = query;

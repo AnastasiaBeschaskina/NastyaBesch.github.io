@@ -11,7 +11,7 @@ export const createAgain = async (
 
   try {
     const response = await axios.post(
-      "http://localhost:4000/generateFairyTale",
+      "https://personal-fairytale-a48db14070ba.herokuapp.com/generateFairyTale",
       formData
     );
     if (onFormSubmitSuccess) {
@@ -45,11 +45,14 @@ export const listen = () => {
 // };
 export const saveStory = async (userId, title, content) => {
   try {
-    const response = await axios.post("http://localhost:4000/api/saveStory", {
-      userId,
-      title,
-      content,
-    });
+    const response = await axios.post(
+      "https://personal-fairytale-a48db14070ba.herokuapp.com/api/saveStory",
+      {
+        userId,
+        title,
+        content,
+      }
+    );
     console.log("Story saved successfully!", response.data);
     return { success: true, data: response.data };
   } catch (error) {

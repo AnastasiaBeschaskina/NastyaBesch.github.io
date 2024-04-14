@@ -3,7 +3,7 @@ import axios from "axios";
 export const fetchStoriesData = async (userId) => {
   try {
     const response = await axios.get(
-      `http://localhost:4000/api/stories?userId=${userId}`
+      `https://personal-fairytale-a48db14070ba.herokuapp.com/api/stories?userId=${userId}`
     );
     if (response.status === 200 && response.data) {
       return response.data; // Return the fetched stories

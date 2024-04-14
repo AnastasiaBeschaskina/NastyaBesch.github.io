@@ -10,7 +10,7 @@ export const createFairyTaleAgain = async (formData) => {
   try {
     // Making a POST request to the server with formData
     const response = await axios.post(
-      "http://localhost:4000/generateFairyTale",
+      "https://personal-fairytale-a48db14070ba.herokuapp.com/generateFairyTale",
       formData
     );
     // Logging the response data for debugging purposes
@@ -41,7 +41,7 @@ export const createFairyTale = async (formData) => {
   try {
     // If validation passes, proceed to make a POST request with the formData
     const response = await axios.post(
-      "http://localhost:4000/generateFairyTale",
+      "https://personal-fairytale-a48db14070ba.herokuapp.com/generateFairyTale",
       formData
     );
     // Return an object indicating success and including the fairy tale data

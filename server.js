@@ -142,10 +142,10 @@ app.get("/api/stories", (req, res) => {
   });
 });
 
-const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, 
-});
+// const apiLimiter = rateLimit({
+//   windowMs: 15 * 60 * 1000, // 15 minutes
+//   max: 100, 
+// });
 
 // //Apply the rate limiting middleware to your routes
 // app.use("/api/registration", apiLimiter);
