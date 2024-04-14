@@ -23,7 +23,7 @@ app.use(express.static("public"));
 app.use(express.static(path.join(__dirname, 'build')));
 
 // Import the query function from your database configuration file
-const { query } = require("./public/connectDB");
+const query = require("./public/connectDB");
 
 // Define allowed origins
 const allowedOrigins =
@@ -269,9 +269,9 @@ async function findUserByEmail(email) {
   console.log("func findUserByEmail");
   try {
     const sqlQuery = "SELECT * FROM users WHERE email = ?";
-     console.log("Executing query:", sqlQuery, "with email:", email);
-     const results = await query(sqlQuery, [email]);
-     console.log("Query results:", results);
+    console.log("Executing query:", sqlQuery, "with email:", email);
+    const results = await query(sqlQuery, [email]);
+    console.log("Query results:", results);
     return results[0] || null;
   } catch (error) {
     console.error("Error in findUserByEmail:", error);
