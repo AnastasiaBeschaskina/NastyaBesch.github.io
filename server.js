@@ -23,28 +23,34 @@ app.use(express.static("public"));
 app.use(express.static(path.join(__dirname, 'build')));
 
 // Import the query function from your database configuration file
-const query = require("./public/connectDB");
-console.log(query);
-
+const {pool, query} = require("./public/connectDB");
 
 // Define allowed origins
-const allowedOrigins = [
-  "https://personal-fairytale-a48db14070ba.herokuapp.com",
-  "http://localhost:3000",
-  "http://localhost:3001",
-];
+const allowedOrigins =
+  process.env.NODE_ENV === "production"
+    ? ["https://personal-fairytale-a48db14070ba.herokuapp.com"]
+    : ["http://localhost:3000", "http://localhost:3001"];
+
 
 // Apply CORS middleware
-app.use(cors({
-  origin: function (origin, callback) {
-    // Check if the request origin is allowed
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  }
-}));
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      console.log(`Origin attempting access: ${origin}`);
+      if (!origin) {
+        console.log(
+          "No origin provided. Likely server-to-server or similar request."
+        );
+        return callback(null, true);
+      }
+      if (allowedOrigins.indexOf(origin) === -1) {
+        console.log(`Access denied for origin: ${origin}`);
+        return callback(new Error("Not allowed by CORS"), false);
+      }
+      return callback(null, true);
+    },
+  })
+);
 
 // Route for all other requests to serve React app
 app.get('*', (req, res) => {
@@ -204,9 +210,37 @@ async function insertUser(userId, userName, email, hashedPassword) {
 
 // Login function
 
+// app.post("/api/login", async (req, res) => {
+//   console.log("Incoming POST request to /api/login");
+//   const { email, password } = req.body;
+//   try {
+//     const user = await findUserByEmail(email);
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+//     const isMatch = await bcrypt.compare(password, user.password);
+//     if (isMatch) {
+//       console.log(user.userName);
+//       res.json({
+//         message: "Login successful",
+//         userId: user.user_id,
+//         userName: user.userName,
+//       });
+//     } else {
+//       res.status(401).json({ message: "Password is incorrect" });
+//     }
+//   } catch (err) {
+//     console.error("Login error:", err);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// });
 app.post("/api/login", async (req, res) => {
   console.log("Incoming POST request to /api/login");
+  console.log("Request body:", req.body); // This should now log the correct body
   const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(400).json({ message: "Email and password are required" });
+  }
   try {
     const user = await findUserByEmail(email);
     if (!user) {
@@ -214,7 +248,7 @@ app.post("/api/login", async (req, res) => {
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (isMatch) {
-      console.log(user.userName);
+      console.log(`Login successful for user: ${user.userName}`);
       res.json({
         message: "Login successful",
         userId: user.user_id,
@@ -225,17 +259,23 @@ app.post("/api/login", async (req, res) => {
     }
   } catch (err) {
     console.error("Login error:", err);
-    res.status(500).json({ message: "Server error" });
+    res
+      .status(500)
+      .json({ message: "An error occurred during the login process" });
   }
 });
 
 async function findUserByEmail(email) {
+  console.log("func findUserByEmail");
   try {
-    const query = "SELECT * FROM users WHERE email = ?";
-    const results = await query(query, [email]); 
+    const sqlQuery = "SELECT * FROM users WHERE email = ?";
+     console.log("Executing query:", sqlQuery, "with email:", email);
+     const results = await query(sqlQuery, [email]);
+     console.log("Query results:", results);
     return results[0] || null;
   } catch (error) {
-    throw error;
+    console.error("Error in findUserByEmail:", error);
+    throw error; // Proper error throwing for upstream catching
   }
 }
 

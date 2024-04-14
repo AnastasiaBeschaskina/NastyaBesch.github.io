@@ -1,11 +1,19 @@
 import axios from "axios";
 import { message } from "antd";
 
+const apiClient = axios.create({
+  baseURL: "https://personal-fairytale-a48db14070ba.herokuapp.com",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
 export const handleLogin = async (email, password) => {
   console.log(email);
   try {
-    const response = await axios.post(
-      "https://personal-fairytale-a48db14070ba.herokuapp.com/api/login",
+    const response = await apiClient.post(
+      "api/login",
+      // "https://personal-fairytale-a48db14070ba.herokuapp.com/api/login",
       {
         email,
         password,

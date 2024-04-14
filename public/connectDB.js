@@ -1,6 +1,5 @@
 const mysql = require("mysql");
 require("dotenv").config();
-const url = require("url");
 
 const dbUrl = new URL(process.env.JAWSDB_MARIA_URL);
 
@@ -18,14 +17,13 @@ const query = (sql, params) =>
   new Promise((resolve, reject) => {
     pool.query(sql, params, (err, results) => {
       if (err) {
-        console.log("err!");
+        console.error("Database query error:", err);
         reject(err);
-      }
-      else {
-        console.log("Database connected!");
+      } else {
         resolve(results);
       }
     });
   });
 
-module.exports = query;
+// Export both pool and query
+module.exports = { pool, query };
