@@ -23,7 +23,7 @@ app.use(express.static("public"));
 app.use(express.static(path.join(__dirname, 'build')));
 
 // Import the query function from your database configuration file
-const {pool, query} = require("./public/connectDB");
+const query = require("./public/connectDB");
 
 // Define allowed origins
 const allowedOrigins =
