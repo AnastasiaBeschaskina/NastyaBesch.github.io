@@ -17,18 +17,28 @@ const Home = () => {
 
   const userName = location.state?.userName || "";
 
-  const mainContent = [];
+   const mainContent =
+     userId === "guest"
+       ? [
+           <Welcome key="welcome" />,
+           <About key="about" />,
+           <GalleryPageUserGuest key="galleryGuest" />,
+           <Reg key="reg" />,
+         ]
+       : [<GalleryPage key="gallery" userId={userId} />];
+       
+  // const mainContent = [];
 
-  mainContent.push(<Welcome key="welcome" userId={userId} />);
-  mainContent.push(<About key="about" userId={userId} />);
+  // mainContent.push(<Welcome key="welcome" userId={userId} />);
+  // mainContent.push(<About key="about" userId={userId} />);
 
-  if (userId === "guest") {
-    mainContent.push(<GalleryPageUserGuest key="galleryGuest" userId={userId} />);
-    mainContent.push(<Reg key="reg" />); 
-  }
-  else {
-    mainContent.push(<GalleryPage key="gallery" userId={userId} />);
-  }
+  // if (userId === "guest") {
+  //   mainContent.push(<GalleryPageUserGuest key="galleryGuest" userId={userId} />);
+  //   mainContent.push(<Reg key="reg" />); 
+  // }
+  // else {
+  //   mainContent.push(<GalleryPage key="gallery" userId={userId} />);
+  // }
 
   return (
     <>
