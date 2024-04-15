@@ -26,8 +26,6 @@ app.use(express.static(path.join(__dirname, "build")));
 //   res.sendFile(path.join(__dirname, "build", "index.html"));
 // });
 
-
-
 // Import the query function from your database configuration file
 const query = require("./public/connectDB");
 
@@ -37,11 +35,9 @@ const allowedOrigins =
     ? ["https://personal-fairytale-a48db14070ba.herokuapp.com"]
     : ["http://localhost:3000", "http://localhost:4000"];
 
-
 // Apply CORS middleware
 app.use(
-  cors(
-    {
+  cors({
     origin: (origin, callback) => {
       console.log(`Origin attempting access: ${origin}`);
       if (!origin) {
@@ -56,10 +52,8 @@ app.use(
       }
       return callback(null, true);
     },
-  }
-  )
+  })
 );
-
 
 // Handle POST requests to "/generateFairyTale"
 app.post("/generateFairyTale", async (req, res) => {
@@ -162,7 +156,7 @@ app.get("/api/stories", (req, res) => {
 
 // const apiLimiter = rateLimit({
 //   windowMs: 15 * 60 * 1000, // 15 minutes
-//   max: 100, 
+//   max: 100,
 // });
 
 // //Apply the rate limiting middleware to your routes
@@ -200,19 +194,20 @@ app.post("/api/registration", async (req, res) => {
 });
 
 async function insertUser(userId, userName, email, hashedPassword) {
-  // Placeholder for your user insertion logic
-  return new Promise((resolve, reject) => {
+  try {
     const insertQuery =
       "INSERT INTO users (user_id, userName, email, password) VALUES (?, ?, ?, ?)";
-    const results = await query(
-      insertQuery,
-      [userId, userName, email, hashedPassword],
-      (err, results) => {
-        if (err) return reject(err);
-        resolve(results);
-      }
-    );
-  });
+    const results = await query(insertQuery, [
+      userId,
+      userName,
+      email,
+      hashedPassword,
+    ]);
+    return results[0] || null;
+  } catch (error) {
+    console.error("Error in findUserByEmail:", error);
+    throw error;
+  }
 }
 
 // Login function
@@ -278,14 +273,12 @@ async function findUserByEmail(email) {
     const sqlQuery = "SELECT * FROM users WHERE email = ?";
     console.log("Executing query:", sqlQuery, "with email:", email);
     const results = await query(sqlQuery, [email]);
-    console.log("Query results:", results);
     return results[0] || null;
   } catch (error) {
     console.error("Error in findUserByEmail:", error);
-    throw error; // Proper error throwing for upstream catching
+    throw error;
   }
 }
-
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
