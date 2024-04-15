@@ -12,7 +12,9 @@ import GalleryPageUserGuest from "./GallaryPageUserGuest.js";
 const Home = () => {
   const location = useLocation();
   const userId = location.state?.userId || "guest";
-  console.log(userId, location.state);
+  console.log(userId);
+  console.log("Location State:", location.state);
+
   const userName = location.state?.userName || "";
 
   const mainContent = [];
@@ -31,7 +33,7 @@ const Home = () => {
   return (
     <>
       <Header userName={userName} userId={userId} />
-      <Main content={mainContent} />
+      {/* <Main content={mainContent} /> */}
       <Footer userId={userId} />
     </>
   );
