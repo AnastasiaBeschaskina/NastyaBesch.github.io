@@ -3,7 +3,7 @@ import { Pagination } from "antd";
 import StoriesList from "../components/storiesList/StoriesList";
 import FairyTale from "../components/fairyTale/FairyTale";
 import { listen } from "../../src/utils/buttonActions";
-import styles from "../styles/gallery.module.css";
+import styles from "./gallery.module.css";
 import { useFetchStories } from "../hooks/useFetchStories";
 
 const pageSize = 6;

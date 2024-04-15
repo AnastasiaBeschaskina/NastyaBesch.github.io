@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "../../styles/log.module.css";
+import styles from "./log.module.css";
 import CustomButton from "../buttons/Button";
 import CustomInput from "../buttons/Input";
 import { validLog } from "../../utils/validations";

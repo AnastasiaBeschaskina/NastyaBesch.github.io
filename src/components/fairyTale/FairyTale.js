@@ -3,7 +3,7 @@ import { Spin, Flex, Button } from "antd";
 import CustomButton from "../buttons/Button";
 import { CloseOutlined } from "@ant-design/icons";
 import { splitText } from "../../utils/textUtils";
-import styles from "../../styles/fairyTale.module.css";
+import styles from "./fairyTale.module.css";
 import { franc, francAll } from "franc";
 
 const FairyTale = ({

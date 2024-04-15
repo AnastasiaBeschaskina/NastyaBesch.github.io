@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import CustomInput from "../buttons/Input";
 import { Card } from "antd";
-import styles from "../../styles/addSecondCharacter.module.css";
+import styles from "./addSecondCharacter.module.css";
 
 const AddSecondCharacter = ({ formData, handleChange, genderError, nameError }) => {
   const [selectedGender, setSelectedGender] = useState("");

@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../../styles/storiesList.module.css";
+import styles from "./storiesList.module.css";
 
 const StoriesList = ({ stories, onSelectStory }) => {
   const imageData = [

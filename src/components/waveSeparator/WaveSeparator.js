@@ -1,6 +1,6 @@
 // WaveSeparator.js
 import React from "react";
-import styles from "../../styles/weveSeparator.module.css";
+import styles from "./weveSeparator.module.css";
 
 const WaveSeparator = ({ className }) => {
   return (

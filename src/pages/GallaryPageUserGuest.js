@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import styles from "../styles/galleryEmpty.module.css";
+import styles from "./galleryEmpty.module.css";
 
 const GalleryPageUserGuest = () => {
   

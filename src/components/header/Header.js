@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { Link } from "react-router-dom";
-import styles from "../../styles/header.module.css";
+import styles from "./header.module.css";
 
 const Header = ({ userName, userId }) => {
   const containerRef = useRef(null);

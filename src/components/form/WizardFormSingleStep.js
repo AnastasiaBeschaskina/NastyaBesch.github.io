@@ -5,7 +5,7 @@ import CustomSelect from "../buttons/Select";
 import SelectAnimal from "./SelectAnimal";
 import AddSecondCharacter from "./AddSecondCharacter";
 import { createFairyTale } from "../../utils/generateFairyTale";
-import styles from "../../styles/WizardForm.module.css";
+import styles from "./WizardForm.module.css";
 import { validateFormData } from "../../utils/validations";
 
 const WizardFormSingleStep = ({

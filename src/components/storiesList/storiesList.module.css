@@ -1,0 +1,40 @@
+/* StoriesList.module.css */
+ .storiesContainer {
+  display: flex;
+  width: 80%;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.storyCard {
+  cursor: pointer;
+  overflow: hidden; 
+  width: calc(26.6% - 20px);
+  min-width: 150px;
+}
+
+.storyTitle {
+  text-align: center;
+  display: block;
+  text-wrap: wrap;
+}
+
+.disabledImage {
+  display: block;
+  width: 100%;
+}
+
+@media (max-width: 768px) { 
+  .storiesContainer {
+  width: 100%;
+  }
+
+  .storyCard {
+  cursor: pointer;
+  overflow: hidden; 
+  width: 30%;
+}
+
+}

@@ -1,6 +1,6 @@
 import React from "react";
 import WaveSeparator from "../waveSeparator/WaveSeparator";
-import styles from "../../styles/footer.module.css"
+import styles from "./styles/footer.module.css"
 
 const Footer = ({ userId }) => {
   const navItems = [

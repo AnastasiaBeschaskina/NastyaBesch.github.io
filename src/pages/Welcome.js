@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import WizardFormSingleStep from "../components/form/WizardFormSingleStep";
-import styles from "../styles/welcome.module.css";
+import styles from "./welcome.module.css";
 import FairyTale from "../components/fairyTale/FairyTale";
 import { saveStory } from "../utils/buttonActions";
 import {createFairyTale} from "../utils/generateFairyTale";

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "../../styles/selectAnimal.module.css";
+import styles from "./selectAnimal.module.css";
 
 const SelectAnimal = ({ formData, handleChange, error }) => {
   const [selectedAnimalId, setSelectedAnimalId] = useState("");

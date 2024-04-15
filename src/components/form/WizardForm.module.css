@@ -1,0 +1,115 @@
+/* WizardForm.module.css */
+.formContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 10px;
+
+}
+
+.formInner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  width: 60%;
+  max-width: 450px;
+  border-radius: 16px;
+  border: 2px solid rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 6px 6px rgba(0, 0, 0, 0.25);
+  background-image: url("../../public/images/backGround1.jpg");
+  background-size: cover;
+  background-position: start; 
+  padding: var(--global-sm-spacing);
+  margin: 0 10px ;
+}
+
+.flexContainer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 10px;
+}
+
+.loginError {
+  color: #c00;
+  display: block;
+  font-size: 13px;
+  text-align: left;
+  letter-spacing: -0.3px;
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  margin: 0 auto;
+  padding: 0;
+  font-family: var(--global-body-font-family);
+}
+
+.slideImage {
+  display: block; 
+  max-width: calc(20% - 10px);
+  margin-bottom: 300px;
+  animation: slideInFromLeft 0.9s forwards;
+}
+
+.slideImageSecond {
+ display: block; 
+max-width: calc(20% - 10px);
+}
+
+.slideInRight {
+  animation: slideInFromRight 0.9s forwards;
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .formInner {
+    width: 90%;
+    gap: 3px;
+    margin: 0;
+  }
+
+  .slideImage {
+    display: none;
+  }
+  .slideImageSecond {
+    display: none;
+  }
+  .flexContainer {
+    flex-direction: column;
+    gap: 3px;
+  }
+  .slideImage {
+    max-width: 50px;
+  }
+  .slideImageSecond {
+    max-width: 50px;
+  }
+}

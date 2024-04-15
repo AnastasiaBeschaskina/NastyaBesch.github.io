@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../styles/about.module.css";
+import styles from "./about.module.cssabout.module.css";
 import WaveSeparator from "../components/waveSeparator/WaveSeparator";
 
 const About = () => {
