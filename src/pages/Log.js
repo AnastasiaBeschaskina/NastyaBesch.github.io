@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import CustomButton from "../components/buttons/Button";
-import styles from "../styles/log.module.css";
+import styles from "../components/form/log.module.css";
 import { useNavigate } from "react-router-dom";
 import RegistrationForm from "../components/form/RegistrationForm";
 import LoginForm from "../components/form/LogInForm";
