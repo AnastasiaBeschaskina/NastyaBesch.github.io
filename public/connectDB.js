@@ -26,4 +26,4 @@ const query = (sql, params) =>
   });
 
 // Export both pool and query
-module.exports = connection;
+module.exports = query;

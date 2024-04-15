@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname, "build")));
 
 
 // Import the query function from your database configuration file
-const connection = require("./public/connectDB");
+const query = require("./public/connectDB");
 
 //Define allowed origins
 const allowedOrigins =
@@ -204,7 +204,7 @@ async function insertUser(userId, userName, email, hashedPassword) {
   return new Promise((resolve, reject) => {
     const insertQuery =
       "INSERT INTO users (user_id, userName, email, password) VALUES (?, ?, ?, ?)";
-    connection.query(
+    const results = await query(
       insertQuery,
       [userId, userName, email, hashedPassword],
       (err, results) => {
@@ -277,7 +277,7 @@ async function findUserByEmail(email) {
   try {
     const sqlQuery = "SELECT * FROM users WHERE email = ?";
     console.log("Executing query:", sqlQuery, "with email:", email);
-    const results = await connection(sqlQuery, [email]);
+    const results = await query(sqlQuery, [email]);
     console.log("Query results:", results);
     return results[0] || null;
   } catch (error) {
@@ -285,6 +285,7 @@ async function findUserByEmail(email) {
     throw error; // Proper error throwing for upstream catching
   }
 }
+
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
