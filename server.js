@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'build')));
 // Import the query function from your database configuration file
 const query = require("./public/connectDB");
 
-Define allowed origins
+//Define allowed origins
 const allowedOrigins =
   process.env.NODE_ENV === "production"
     ? ["https://personal-fairytale-a48db14070ba.herokuapp.com"]
