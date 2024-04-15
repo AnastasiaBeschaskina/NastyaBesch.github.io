@@ -25,5 +25,4 @@ const query = (sql, params) =>
     });
   });
 
-// Export both pool and query
 module.exports = query;

@@ -28,21 +28,6 @@ export const listen = () => {
   console.log("Listening");
 };
 
-
-// export const saveStory = async (userId, title, content) => {
-//   console.log(userId, title, content);
-//   try {
-//     const response = await axios.post("http://localhost:4000/api/saveStory", {
-//       userId,
-//       title,
-//       content,
-//     });
-//     console.log("Story saved successfully!", response.data);
-//     window.location.reload(false);
-//   } catch (error) {
-//     console.error("Failed to save the story", error);
-//   }
-// };
 export const saveStory = async (userId, title, content) => {
   try {
     const response = await axios.post(
@@ -60,8 +45,6 @@ export const saveStory = async (userId, title, content) => {
     return { success: false, error: error.message };
   }
 };
-
-
 
 // const textToSpeech = async (text, language) => {
 //   try {
@@ -84,4 +67,3 @@ export const saveStory = async (userId, title, content) => {
 //   "Hello, World! This is a test of Google Cloud Text-to-Speech",
 //   "en-US"
 // );
-

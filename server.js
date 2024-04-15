@@ -7,24 +7,15 @@ const cron = require("node-cron");
 const bcrypt = require("bcrypt");
 const { v4: uuidv4 } = require("uuid");
 const path = require("path");
-// const fs = require("fs");
-// const util = require("util");
 
-// Import rateLimit module
 const rateLimit = require("express-rate-limit");
 
 // Middleware to parse JSON bodies
 app.use(express.json());
 
-// Serve static files from the 'public' directory
 app.use(express.static("public"));
 
 app.use(express.static(path.join(__dirname, "build")));
-
-// Serve React build files
-// app.get("*", (req, res) => {
-//   res.sendFile(path.join(__dirname, "build", "index.html"));
-// });
 
 // Import the query function from your database configuration file
 const query = require("./public/connectDB");
@@ -101,9 +92,7 @@ app.post("/generateFairyTale", async (req, res) => {
     const title = titleWithPrefix.replace(regex, "");
     const generatedText = storyParts.join("\n\n");
 
-    setTimeout(() => {
-      res.json({ title, content: generatedText });
-    }, 3000);
+    res.json({ title, content: generatedText });
   } catch (error) {
     console.error("Error:", error);
     if (error.response?.status === 429) {
@@ -124,34 +113,32 @@ app.post("/api/saveStory", async (req, res) => {
   const storyId = uuidv4();
   const { title, content, userId } = req.body;
 
-  const query =
+  const sqlQuery =
     "INSERT INTO stories (story_id, title, content, user_id) VALUES (?, ?, ?, ?)";
-  connection.query(query, [storyId, title, content, userId], (err, results) => {
-    if (err) {
-      console.error("Error saving story:", err);
-      return res.status(500).json({ message: "Failed to save the story" });
-    }
-    console.log("Story saved successfully!", results);
+
+  try {
+    await query(sqlQuery, [storyId, title, content, userId]);
+    console.log("Story saved successfully!");
     res.status(200).json({ message: "Story saved successfully", id: storyId });
-  });
+  } catch (err) {
+    console.error("Error saving story:", err);
+    res.status(500).json({ message: "Failed to save the story" });
+  }
 });
 
 // Endpoint to fetch stories
-app.get("/api/stories", (req, res) => {
+app.get("/api/stories", async (req, res) => {
   const { userId } = req.query;
-  console.log("stories", req.query);
 
   const sqlQuery = "SELECT * FROM stories WHERE user_id = ?";
-  // Use the query function from the database configuration file
-  connection
-    .query(sqlQuery, [userId])
-    .then((results) => {
-      res.json(results);
-    })
-    .catch((err) => {
-      console.error("Error fetching stories by userId:", err);
-      res.status(500).json({ message: "Failed to fetch stories" });
-    });
+
+  try {
+    const results = await query(sqlQuery, [userId]);
+    res.json(results);
+  } catch (err) {
+    console.error("Error fetching stories by userId:", err);
+    res.status(500).json({ message: "Failed to fetch stories" });
+  }
 });
 
 // const apiLimiter = rateLimit({
@@ -163,7 +150,7 @@ app.get("/api/stories", (req, res) => {
 // app.use("/api/registration", apiLimiter);
 // app.use("/api/login", apiLimiter);
 
-//Log
+//Registration function
 
 app.post("/api/registration", async (req, res) => {
   console.log("reg");
@@ -212,30 +199,6 @@ async function insertUser(userId, userName, email, hashedPassword) {
 
 // Login function
 
-// app.post("/api/login", async (req, res) => {
-//   console.log("Incoming POST request to /api/login");
-//   const { email, password } = req.body;
-//   try {
-//     const user = await findUserByEmail(email);
-//     if (!user) {
-//       return res.status(404).json({ message: "User not found" });
-//     }
-//     const isMatch = await bcrypt.compare(password, user.password);
-//     if (isMatch) {
-//       console.log(user.userName);
-//       res.json({
-//         message: "Login successful",
-//         userId: user.user_id,
-//         userName: user.userName,
-//       });
-//     } else {
-//       res.status(401).json({ message: "Password is incorrect" });
-//     }
-//   } catch (err) {
-//     console.error("Login error:", err);
-//     res.status(500).json({ message: "Server error" });
-//   }
-// });
 app.post("/api/login", async (req, res) => {
   console.log("Incoming POST request to /api/login");
   console.log("Request body:", req.body); // This should now log the correct body

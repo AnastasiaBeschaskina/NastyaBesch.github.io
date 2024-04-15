@@ -44,7 +44,6 @@ export const handleRegistration = async (userName, email, password, navigate) =>
   console.log("handleRegistration");
   try {
     const response = await axios.post(
-      // "http://localhost:4000/api/registration",
       "https://personal-fairytale-a48db14070ba.herokuapp.com/api/registration",
       {
         userName,
