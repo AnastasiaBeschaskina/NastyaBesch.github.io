@@ -8,10 +8,12 @@ export const fetchStoriesData = async (userId) => {
     if (response.status === 200 && response.data) {
       return response.data; // Return the fetched stories
     } else {
-      throw new Error("Failed to fetch stories");
+      console.error("No stories found or bad response");
+      return []; // Return an empty array or handle accordingly
     }
   } catch (error) {
     console.error("Fetch error:", error);
-    throw error;
+    return []; // Return an empty array or handle accordingly
   }
 };
+

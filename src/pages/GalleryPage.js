@@ -15,6 +15,8 @@ const GalleryPage = ({ userId }) => {
   const buttons =  [];//[{ content: "Listen", onClick: listen }];
   const { stories } = useFetchStories(userId);
 
+  console.log(stories);
+
   const filteredStories = stories.filter(
     (story) =>
       !filter || story.title.toLowerCase().includes(filter.toLowerCase())

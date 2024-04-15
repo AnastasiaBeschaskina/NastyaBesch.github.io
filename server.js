@@ -7,26 +7,30 @@ const cron = require("node-cron");
 const bcrypt = require("bcrypt");
 const { v4: uuidv4 } = require("uuid");
 const path = require("path");
-
 const rateLimit = require("express-rate-limit");
 
-// Middleware to parse JSON bodies
+// Middleware to parse JSON bodies. This enables you to access request body data.
 app.use(express.json());
 
+// Serve static files from the 'public' directory. This is used for files like images, CSS, JavaScript that are publicly accessible.
 app.use(express.static("public"));
 
+// Serve static files from the 'build' directory, typically used in React applications after build.
 app.use(express.static(path.join(__dirname, "build")));
 
-// Import the query function from your database configuration file
+// Import the query function from your database configuration file.
 const query = require("./public/connectDB");
 
-//Define allowed origins
+// Use dotenv to manage environment variables.
+require("dotenv").config();
+
+// Define allowed origins for CORS. This controls which client domains can access your server.
 const allowedOrigins =
   process.env.NODE_ENV === "production"
     ? ["https://personal-fairytale-a48db14070ba.herokuapp.com"]
-    : ["http://localhost:3000", "http://localhost:4000"];
+    : ["http://localhost:3000"];
 
-// Apply CORS middleware
+// Apply CORS middleware with custom logic.
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -50,7 +54,9 @@ app.use(
 app.post("/generateFairyTale", async (req, res) => {
   const { gender, language, category, firstName, friendsName, animal } =
     req.body;
+  console.log(req.body);
 
+  // Construct the prompt based on the input language.
   let prompt;
   if (language === "russian") {
     prompt = `Создайте название и сказку на русском языке в категории "${category}" для ${firstName}${
@@ -66,6 +72,7 @@ app.post("/generateFairyTale", async (req, res) => {
     }, ${gender} who loves ${animal}.`;
   }
 
+  // Make an API request to OpenAI using axios.
   try {
     const response = await axios.post(
       "https://api.openai.com/v1/chat/completions",
@@ -84,11 +91,10 @@ app.post("/generateFairyTale", async (req, res) => {
       }
     );
 
+    // Process the response to extract the story title and content.
     const generatedResponse = response.data.choices[0].message.content;
     const [titleWithPrefix, ...storyParts] = generatedResponse.split("\n\n");
     const regex = /^(Title: |כותרת: |Hазвание: )/i;
-
-    // Replace the matched prefix with an empty string
     const title = titleWithPrefix.replace(regex, "");
     const generatedText = storyParts.join("\n\n");
 
@@ -130,6 +136,7 @@ app.post("/api/saveStory", async (req, res) => {
 app.get("/api/stories", async (req, res) => {
   const { userId } = req.query;
 
+  console.log(req.query);
   const sqlQuery = "SELECT * FROM stories WHERE user_id = ?";
 
   try {
