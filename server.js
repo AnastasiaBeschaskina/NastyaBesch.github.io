@@ -27,32 +27,32 @@ app.use(express.static(path.join(__dirname, 'build')));
 // Import the query function from your database configuration file
 const query = require("./public/connectDB");
 
-// Define allowed origins
-// const allowedOrigins =
-//   process.env.NODE_ENV === "production"
-//     ? ["https://personal-fairytale-a48db14070ba.herokuapp.com"]
-//     : ["http://localhost:3000", "http://localhost:3001"];
+Define allowed origins
+const allowedOrigins =
+  process.env.NODE_ENV === "production"
+    ? ["https://personal-fairytale-a48db14070ba.herokuapp.com"]
+    : ["http://localhost:3000", "http://localhost:4000"];
 
 
 // Apply CORS middleware
 app.use(
   cors(
-    // {
-    // origin: (origin, callback) => {
-    //   console.log(`Origin attempting access: ${origin}`);
-    //   if (!origin) {
-    //     console.log(
-    //       "No origin provided. Likely server-to-server or similar request."
-    //     );
-    //     return callback(null, true);
-    //   }
-    //   if (allowedOrigins.indexOf(origin) === -1) {
-    //     console.log(`Access denied for origin: ${origin}`);
-    //     return callback(new Error("Not allowed by CORS"), false);
-    //   }
-    //   return callback(null, true);
-    // },
-  // }
+    {
+    origin: (origin, callback) => {
+      console.log(`Origin attempting access: ${origin}`);
+      if (!origin) {
+        console.log(
+          "No origin provided. Likely server-to-server or similar request."
+        );
+        return callback(null, true);
+      }
+      if (allowedOrigins.indexOf(origin) === -1) {
+        console.log(`Access denied for origin: ${origin}`);
+        return callback(new Error("Not allowed by CORS"), false);
+      }
+      return callback(null, true);
+    },
+  }
   )
 );
 
