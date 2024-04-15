@@ -33,7 +33,7 @@ const Home = () => {
   return (
     <>
       <Header userName={userName} userId={userId} />
-      {/* <Main content={mainContent} /> */}
+      <Main content={mainContent} />
       <Footer userId={userId} />
     </>
   );
