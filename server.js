@@ -22,40 +22,39 @@ app.use(express.static("public"));
 // Serve React build files
 app.use(express.static(path.join(__dirname, 'build')));
 
+
+
 // Import the query function from your database configuration file
 const query = require("./public/connectDB");
 
 // Define allowed origins
-const allowedOrigins =
-  process.env.NODE_ENV === "production"
-    ? ["https://personal-fairytale-a48db14070ba.herokuapp.com"]
-    : ["http://localhost:3000", "http://localhost:3001"];
+// const allowedOrigins =
+//   process.env.NODE_ENV === "production"
+//     ? ["https://personal-fairytale-a48db14070ba.herokuapp.com"]
+//     : ["http://localhost:3000", "http://localhost:3001"];
 
 
 // Apply CORS middleware
 app.use(
-  cors({
-    origin: (origin, callback) => {
-      console.log(`Origin attempting access: ${origin}`);
-      if (!origin) {
-        console.log(
-          "No origin provided. Likely server-to-server or similar request."
-        );
-        return callback(null, true);
-      }
-      if (allowedOrigins.indexOf(origin) === -1) {
-        console.log(`Access denied for origin: ${origin}`);
-        return callback(new Error("Not allowed by CORS"), false);
-      }
-      return callback(null, true);
-    },
-  })
+  cors(
+    // {
+    // origin: (origin, callback) => {
+    //   console.log(`Origin attempting access: ${origin}`);
+    //   if (!origin) {
+    //     console.log(
+    //       "No origin provided. Likely server-to-server or similar request."
+    //     );
+    //     return callback(null, true);
+    //   }
+    //   if (allowedOrigins.indexOf(origin) === -1) {
+    //     console.log(`Access denied for origin: ${origin}`);
+    //     return callback(new Error("Not allowed by CORS"), false);
+    //   }
+    //   return callback(null, true);
+    // },
+  // }
+  )
 );
-
-// Route for all other requests to serve React app
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
 
 
 // Handle POST requests to "/generateFairyTale"
@@ -142,15 +141,18 @@ app.post("/api/saveStory", async (req, res) => {
 // Endpoint to fetch stories
 app.get("/api/stories", (req, res) => {
   const { userId } = req.query;
+  console.log("stories", req.query);
 
   const query = "SELECT * FROM stories WHERE user_id = ?";
-  connection.query(query, [userId], (err, results) => {
-    if (err) {
+  // Use the query function from the database configuration file
+  query(query, [userId])
+    .then((results) => {
+      res.json(results);
+    })
+    .catch((err) => {
       console.error("Error fetching stories by userId:", err);
-      return res.status(500).json({ message: "Failed to fetch stories" });
-    }
-    res.json(results);
-  });
+      res.status(500).json({ message: "Failed to fetch stories" });
+    });
 });
 
 // const apiLimiter = rateLimit({
