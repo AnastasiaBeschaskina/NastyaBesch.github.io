@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "../styles/registrationPage.module.css";
+import styles from "./registrationPage.module.css";
 import WaveSeparator from "../components/waveSeparator/WaveSeparator";
 import RegistrationForm from "../components/form/RegistrationForm";
 
