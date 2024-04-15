@@ -1,7 +1,7 @@
 const express = require("express");
 const axios = require("axios");
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 4000;
 const cors = require("cors");
 const cron = require("node-cron");
 const bcrypt = require("bcrypt");
