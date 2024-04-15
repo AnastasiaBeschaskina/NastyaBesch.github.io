@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname, "build")));
 
 
 // Import the query function from your database configuration file
-const query = require("./public/connectDB");
+const connection = require("./public/connectDB");
 
 //Define allowed origins
 const allowedOrigins =
@@ -147,9 +147,10 @@ app.get("/api/stories", (req, res) => {
   const { userId } = req.query;
   console.log("stories", req.query);
 
-  const query = "SELECT * FROM stories WHERE user_id = ?";
+  const sqlQuery = "SELECT * FROM stories WHERE user_id = ?";
   // Use the query function from the database configuration file
-  query(query, [userId])
+  connection
+    .query(sqlQuery, [userId])
     .then((results) => {
       res.json(results);
     })
@@ -276,7 +277,7 @@ async function findUserByEmail(email) {
   try {
     const sqlQuery = "SELECT * FROM users WHERE email = ?";
     console.log("Executing query:", sqlQuery, "with email:", email);
-    const results = await query(sqlQuery, [email]);
+    const results = await connection(sqlQuery, [email]);
     console.log("Query results:", results);
     return results[0] || null;
   } catch (error) {
@@ -284,9 +285,6 @@ async function findUserByEmail(email) {
     throw error; // Proper error throwing for upstream catching
   }
 }
-app.get("/api/something", (req, res) => {
-  res.json({ message: "This is an API response" });
-});
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
