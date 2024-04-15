@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../components/header/Header";
 import Main from "../components/main/Main";
 import Footer from "../components/footer/Footer";
@@ -12,6 +12,7 @@ import GalleryPageUserGuest from "./GallaryPageUserGuest.js";
 const Home = () => {
   const location = useLocation();
   const [userId, setUserId] = useState("guest");
+  const [userName, setUserName] = useState("");
 
   useEffect(() => {
     if (location.state?.userId) {
