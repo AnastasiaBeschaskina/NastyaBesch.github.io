@@ -12,6 +12,7 @@ import GalleryPageUserGuest from "./GallaryPageUserGuest.js";
 const Home = () => {
   const location = useLocation();
   const userId = location.state?.userId || "guest";
+  console.log(userId, location.state);
   const userName = location.state?.userName || "";
 
   const mainContent = [];

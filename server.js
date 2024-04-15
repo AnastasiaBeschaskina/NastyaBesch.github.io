@@ -90,28 +90,69 @@ app.post("/generateFairyTale", async (req, res) => {
         },
       }
     );
-
-    // Process the response to extract the story title and content.
     const generatedResponse = response.data.choices[0].message.content;
     const [titleWithPrefix, ...storyParts] = generatedResponse.split("\n\n");
-    const regex = /^(Title: |כותרת: |Hазвание: )/i;
     const title = titleWithPrefix.replace(regex, "");
     const generatedText = storyParts.join("\n\n");
-
     res.json({ title, content: generatedText });
   } catch (error) {
-    console.error("Error:", error);
+    console.error(
+      "Request failed with error:",
+      error.response ? error.response.data : error.message
+    );
     if (error.response?.status === 429) {
-      console.log(
-        "Rate limit exceeded. Implementing retry logic or notifying the user."
-      );
       res
         .status(429)
         .json({ message: "Too many requests. Please try again later." });
     } else {
-      res.status(500).json({ message: "An unexpected error occurred." });
+      res
+        .status(500)
+        .json({
+          message: "An unexpected error occurred.",
+          error: error.message,
+        });
     }
   }
+
+  // try {
+  //   const response = await axios.post(
+  //     "https://api.openai.com/v1/chat/completions",
+  //     {
+  //       model: "gpt-3.5-turbo",
+  //       messages: [
+  //         { role: "system", content: "Generate a fairy tale with a title." },
+  //         { role: "user", content: prompt },
+  //       ],
+  //     },
+  //     {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+  //       },
+  //     }
+  //   );
+
+  //   // Process the response to extract the story title and content.
+  //   const generatedResponse = response.data.choices[0].message.content;
+  //   const [titleWithPrefix, ...storyParts] = generatedResponse.split("\n\n");
+  //   const regex = /^(Title: |כותרת: |Hазвание: )/i;
+  //   const title = titleWithPrefix.replace(regex, "");
+  //   const generatedText = storyParts.join("\n\n");
+
+  //   res.json({ title, content: generatedText });
+  // } catch (error) {
+  //   console.error("Error:", error);
+  //   if (error.response?.status === 429) {
+  //     console.log(
+  //       "Rate limit exceeded. Implementing retry logic or notifying the user."
+  //     );
+  //     res
+  //       .status(429)
+  //       .json({ message: "Too many requests. Please try again later." });
+  //   } else {
+  //     res.status(500).json({ message: "An unexpected error occurred." });
+  //   }
+  // }
 });
 
 // Endpoint to save a story
