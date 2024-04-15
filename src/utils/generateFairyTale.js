@@ -39,7 +39,7 @@ export const createFairyTale = async (formData) => {
   }
 
   try {
-    console.log(generateFairyTale);
+    console.log("generateFairyTale");
     // If validation passes, proceed to make a POST request with the formData
     const response = await axios.post(
       "https://personal-fairytale-a48db14070ba.herokuapp.com/generateFairyTale",
