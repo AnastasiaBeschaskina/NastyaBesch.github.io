@@ -1,6 +1,6 @@
 
 .header {
-  background-image: url('../../public/images/footerBackGroundImage.webp'); 
+  background-image: url('../../../public/images/footerBackGroundImage.webp'); 
   background-position: start;
   background-size: contain; 
   align-items: center;
