@@ -1,7 +1,7 @@
 const express = require("express");
 const axios = require("axios");
 const app = express();
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 3001;
 const cors = require("cors");
 const cron = require("node-cron");
 const bcrypt = require("bcrypt");
@@ -19,8 +19,12 @@ app.use(express.json());
 // Serve static files from the 'public' directory
 app.use(express.static("public"));
 
+app.use(express.static(path.join(__dirname, "build")));
+
 // Serve React build files
-app.use(express.static(path.join(__dirname, 'build')));
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "build", "index.html"));
+// });
 
 
 
@@ -280,6 +284,13 @@ async function findUserByEmail(email) {
     throw error; // Proper error throwing for upstream catching
   }
 }
+app.get("/api/something", (req, res) => {
+  res.json({ message: "This is an API response" });
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
