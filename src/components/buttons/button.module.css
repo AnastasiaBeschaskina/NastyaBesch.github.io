@@ -8,8 +8,6 @@
   background: var(--second-color);
   margin-top: var(--global-xs-spacing);
   border-style: none;
-  /* cursor: url('../../public/images/44.png'), auto; */
-
 }
 
 .buttonForm:hover {
@@ -24,7 +22,6 @@
   padding: 10px 20px;
   min-width: 200px;
   max-width: 250px;
-  cursor: url('../../public/images/44.png'), auto;
 }
 
 .logButton {
@@ -37,7 +34,6 @@
   color: white;
   border-style: none;
   margin-top: var(--global-xs-spacing);
-  /* cursor: url('../../public/images/44.png'), auto; */
 }
 
 .logButton:hover {
@@ -53,7 +49,6 @@
   margin-top: 10px;;
   color: white;
   border-style: none;
-  /* cursor: url('../../public/images/44.png'), auto; */
 }
 
 .regButton:hover{
@@ -71,7 +66,6 @@
   width: 100%;
   background-color: var(--primary-color);
   border-style: none;
-  /* cursor: url('../../public/images/44.png'), auto; */
 }
 
 .joinButton:hover {
