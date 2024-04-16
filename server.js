@@ -12,11 +12,13 @@ const rateLimit = require("express-rate-limit");
 // Middleware to parse JSON bodies. This enables you to access request body data.
 app.use(express.json());
 
-// Serve static files from the 'public' directory. This is used for files like images, CSS, JavaScript that are publicly accessible.
+// Serve static files (React build)
 app.use(express.static("public"));
-
-// Serve static files from the 'build' directory, typically used in React applications after build.
 app.use(express.static(path.join(__dirname, "build")));
+
+app.get("/", (req, res) => {
+  res.redirect("/");
+});
 
 // Import the query function from your database configuration file.
 const query = require("./public/connectDB");
@@ -90,7 +92,7 @@ app.post("/generateFairyTale", async (req, res) => {
         },
       }
     );
-    
+
     const regex = /^(Title: |כותרת: |Hазвание: )/i;
     const generatedResponse = response.data.choices[0].message.content;
     const [titleWithPrefix, ...storyParts] = generatedResponse.split("\n\n");
@@ -115,46 +117,6 @@ app.post("/generateFairyTale", async (req, res) => {
         });
     }
   }
-
-  // try {
-  //   const response = await axios.post(
-  //     "https://api.openai.com/v1/chat/completions",
-  //     {
-  //       model: "gpt-3.5-turbo",
-  //       messages: [
-  //         { role: "system", content: "Generate a fairy tale with a title." },
-  //         { role: "user", content: prompt },
-  //       ],
-  //     },
-  //     {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-  //       },
-  //     }
-  //   );
-
-  //   // Process the response to extract the story title and content.
-  //   const generatedResponse = response.data.choices[0].message.content;
-  //   const [titleWithPrefix, ...storyParts] = generatedResponse.split("\n\n");
-  //   const regex = /^(Title: |כותרת: |Hазвание: )/i;
-  //   const title = titleWithPrefix.replace(regex, "");
-  //   const generatedText = storyParts.join("\n\n");
-
-  //   res.json({ title, content: generatedText });
-  // } catch (error) {
-  //   console.error("Error:", error);
-  //   if (error.response?.status === 429) {
-  //     console.log(
-  //       "Rate limit exceeded. Implementing retry logic or notifying the user."
-  //     );
-  //     res
-  //       .status(429)
-  //       .json({ message: "Too many requests. Please try again later." });
-  //   } else {
-  //     res.status(500).json({ message: "An unexpected error occurred." });
-  //   }
-  // }
 });
 
 // Endpoint to save a story
@@ -294,7 +256,7 @@ async function findUserByEmail(email) {
 }
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
+  res.sendFile(path.join(__dirname, "build", "index.html")); 
 });
 
 app.listen(port, () => {
