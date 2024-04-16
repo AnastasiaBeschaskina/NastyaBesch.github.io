@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef} from "react";
 import styles from "./galleryEmpty.module.css";
 
 const GalleryPageUserGuest = () => {
-  
+  const [isAutoScrollActive, setIsAutoScrollActive] = React.useState(true);
   const containerRef = useRef(null);
 
   const placeholderImages = [
@@ -16,9 +16,29 @@ const GalleryPageUserGuest = () => {
 
   const duplicateImages = [...placeholderImages, ...placeholderImages];
 
+  const disableAutoScrollTemporarily = () => {
+    setIsAutoScrollActive(false);
+    setTimeout(() => setIsAutoScrollActive(true), 1000);
+  };
+
   useEffect(() => {
-    const scrollSpeed = 1;
-    const intervalTime = 20;
+    const navLinks = document.querySelectorAll('a[href^="#"]');
+    navLinks.forEach((link) =>
+      link.addEventListener("click", disableAutoScrollTemporarily)
+    );
+
+    return () => {
+      navLinks.forEach((link) =>
+        link.removeEventListener("click", disableAutoScrollTemporarily)
+      );
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isAutoScrollActive) return;
+
+    const scrollSpeed = 1; // Pixels to scroll
+    const intervalTime = 20; // ms between each scroll increment
 
     const scrollFunction = () => {
       if (containerRef.current) {
@@ -26,21 +46,22 @@ const GalleryPageUserGuest = () => {
 
         if (
           containerRef.current.scrollWidth - containerRef.current.scrollLeft <=
-          containerRef.current.offsetWidth
+          containerRef.current.clientWidth
         ) {
           containerRef.current.scrollLeft = 0;
         }
       }
     };
 
-    // Start the auto-scroll using setInterval
     const intervalId = setInterval(scrollFunction, intervalTime);
-
-    return () => clearInterval(intervalId);
-  }, []);
+    return () => {
+      clearInterval(intervalId);
+      console.log("Interval cleared");
+    };
+  }, [isAutoScrollActive]);
 
   return (
-    <div className={styles.galleryGuestContainer} >
+    <div className={styles.galleryGuestContainer}>
       <div className={styles.galleryGuest}>
         <h1 className={styles.title}>Craft Your Magic Library ✨</h1>
         <p className={styles.title}>

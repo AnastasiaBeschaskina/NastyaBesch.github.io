@@ -102,9 +102,6 @@ a {
   height: 40px;
   /* rgb(232, 240, 254); */
 }
-.ant-select .ant-select-lg .ant-select-outlined .css-dev-only-do-not-override-1xg9z9n .ant-select-single .ant-select-show-arrow .ant-select-show-search {
-  background-color: red;
-}
 
 .ant-input-outlined {
   text-align: start;

@@ -16,15 +16,19 @@ const Header = ({ userName, userId }) => {
     ];
   }
 
-  const handleLinkClick = (path) => (event) => {
-    event.preventDefault();
-    // const section = containerRef.current?.querySelector(`#${path}`);
-    const section = document.getElementById(path);
-    if (section) {
-      console.log(section);
-      section.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+ const handleLinkClick = (path) => (event) => {
+   event.preventDefault();
+   // Wait for the element to be available if it's loaded dynamically
+   setTimeout(() => {
+     const section = document.getElementById(path);
+     console.log(section)
+     if (section) {
+       section.scrollIntoView({ behavior: "smooth" });
+     } else {
+       console.error("Element not found: ", path);
+     }
+   }, 100); // Adjust timing based on your app's behavior
+ };
 
   return (
     <div className={styles.header} ref={containerRef}>

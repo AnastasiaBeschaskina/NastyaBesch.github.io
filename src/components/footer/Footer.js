@@ -4,7 +4,6 @@ import styles from "./footer.module.css"
 
 const Footer = ({ userId }) => {
   const navItems = [
-    { title: "Your Stories", path: "stories" },
     { title: "How does it work", path: "about" },
     { title: "Create Fairy tale", path: "create" },
   ];
