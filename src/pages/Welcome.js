@@ -14,13 +14,13 @@ const Welcome = ({ userId }) => {
     return savedFormData ? JSON.parse(savedFormData) : null;
   });
 
+
   useEffect(() => {
     if (formData) {
       localStorage.setItem("formData", JSON.stringify(formData));
     }
   }, [formData]);
 
-  console.log(formData);
   // Save fairy tale data
   const handleSave = () => {
     if (fairyTaleData) {
@@ -78,7 +78,8 @@ const Welcome = ({ userId }) => {
       {isLoading || fairyTaleData ? (
         <FairyTale
           isGuest={userId === "guest"}
-          content={fairyTaleData?.content}
+          content={"ddjhfhfjfkfkgkjg"}
+        //  {fairyTaleData?.content}
           loading={isLoading}
           title={fairyTaleData?.title}
           buttons={buttons}

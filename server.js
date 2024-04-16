@@ -15,6 +15,7 @@ app.use(express.json());
 // Serve static files (React build)
 app.use(express.static("public"));
 app.use(express.static(path.join(__dirname, "build")));
+console.log(path.join);
 
 app.get("/", (req, res) => {
   res.redirect("/");
@@ -256,7 +257,7 @@ async function findUserByEmail(email) {
 }
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html")); 
+  res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
 app.listen(port, () => {

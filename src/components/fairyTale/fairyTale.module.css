@@ -6,17 +6,22 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  max-height: fit-content;
+  width: 80%;
   position: relative;
-  width: 100%;
   border-radius: 25px;
-  width: 90%;
-  margin: 40px;
+  margin: 0 auto;
+  margin-top: 30px;
+  overflow: hidden;
 }
 
 .content {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: start;
   margin: var(--global-xs-spacing);
+  border: 2px solid rgb(0, 13, 255);
 }
 
 .title {
@@ -59,6 +64,11 @@
 }
 
 @media (max-width: 768px) {
+  .container{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 90%;
+  }
   .title {
     font-size: 1rem;
   }
