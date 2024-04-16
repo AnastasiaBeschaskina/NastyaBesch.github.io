@@ -90,6 +90,8 @@ app.post("/generateFairyTale", async (req, res) => {
         },
       }
     );
+    
+    const regex = /^(Title: |כותרת: |Hазвание: )/i;
     const generatedResponse = response.data.choices[0].message.content;
     const [titleWithPrefix, ...storyParts] = generatedResponse.split("\n\n");
     const title = titleWithPrefix.replace(regex, "");

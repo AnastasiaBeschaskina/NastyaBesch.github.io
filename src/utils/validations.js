@@ -83,7 +83,7 @@ export function validateFormData(formData) {
   let errors = {};
 
   // Regular expression to check if a string consists only of letters
-  const lettersOnlyRegex = /^[A-Za-z]+$/; // Use + instead of * to ensure at least one character
+  const lettersOnlyRegex = /^[A-Za-zא-תА-Яа-я]+$/;
 
   // Validate firstName: not empty and consists only of letters
   if (!firstName.trim()) {
