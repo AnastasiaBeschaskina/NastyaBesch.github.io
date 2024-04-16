@@ -23,7 +23,6 @@
   margin-right: -20px;
 }
 
-
 .logContainerForm {
   display: flex;
   flex-direction: column;
@@ -68,9 +67,7 @@
 
 .logTitle {
   color: var(--third-color);
-  margin: var(--global-xs-spacing);
   text-align: center;
-  /* font-size: 1.5rem; */
 }
 
 .textRegPage {
@@ -78,7 +75,6 @@
   margin: var(--global-xm-spacing);
   width: 100%;
   max-width: 800px;
-  /* margin: 30px; */
 }
 
 .validationErrors {

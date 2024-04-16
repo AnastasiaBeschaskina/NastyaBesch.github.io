@@ -2,10 +2,10 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  background-repeat: no-repeat;
+  /* background-repeat: no-repeat;
   background-image: url("../../public/images/regBackGraund.jpg");
   background-position: center;
-  background-size: contain;
+  background-size: contain; */
   margin: 0;
 }
 
@@ -17,12 +17,15 @@
   padding: var(--global-xl-spacing); 
   flex-direction: row;
   align-items: center;
+  background-repeat: no-repeat;
+  background-image: url("../../public/images/regBackGraund.jpg");
+  background-position: center;
+  background-size: contain;
 }
 
 @media (max-width: 768px) { 
   .regPageContainer {
-    padding: var(--global-xs-spacing); 
-    margin-top: -40px;
+    padding: var(--global-xl-spacing); 
   }
 }
 

@@ -5,11 +5,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* min-height: 100vh; */
+  min-height: 100vh;
   position: relative;
   width: 100%;
   border-radius: 25px;
   width: 90%;
+  margin: 40px;
 }
 
 .content {
@@ -27,7 +28,7 @@
 }
 
 .containerText {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   text-align: justify;
   color: var(--second-color);
   text-shadow: 2px 2px 4px rgba(250, 250, 250, 0.9),

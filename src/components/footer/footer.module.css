@@ -19,3 +19,9 @@
 .navLink:hover {
   color: var(--quarter-color);
 }
+
+@media (max-width: 768px) {
+  .navLink a{
+  padding: 5px 0;
+  }
+}

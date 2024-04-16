@@ -31,7 +31,8 @@
   align-items: center;
   justify-content: center; 
   overflow: hidden; 
-  margin: var(--global-xm-spacing) 0; 
+  padding: var(--global-xm-spacing) 0; 
+  background: linear-gradient(to bottom, white, rgb(244, 234, 220));
 }
 
 .galleryGuest{
@@ -50,7 +51,7 @@
 
 @media (max-width: 768px) { 
   .galleryGuestContainer{
-    margin: var(--global-xs-spacing) 0; 
+    padding: var(--global-xs-spacing) 0; 
   }
 
   .storyPlaceholder {

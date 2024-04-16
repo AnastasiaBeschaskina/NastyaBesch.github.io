@@ -51,11 +51,11 @@
   position: relative;
   top: 0px;
   left: 50%;
-  transform: translateX(-50%) ;
+  transform: translateX(-50%) rotate(180deg) ;
   width: 100%;
   height: 100%;
   display: block;
-  fill: white;
+  fill: rgb(244, 234, 220);
 }
 
 @media (max-width: 768px) { 

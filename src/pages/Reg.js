@@ -7,7 +7,7 @@ const Reg = () => {
   const [email, setEmail] = useState("");
   return (
     <div className={styles.containerRegPage} id="join">
-      <WaveSeparator className="svg3" />
+      <WaveSeparator className="svg4" />
       <div className={styles.regPageContainer}>
         <RegistrationForm />
       </div>
