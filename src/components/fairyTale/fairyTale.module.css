@@ -21,7 +21,6 @@
   align-items: center;
   justify-content: start;
   margin: var(--global-xs-spacing);
-  border: 2px solid rgb(0, 13, 255);
 }
 
 .title {

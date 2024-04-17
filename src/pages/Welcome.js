@@ -78,8 +78,7 @@ const Welcome = ({ userId }) => {
       {isLoading || fairyTaleData ? (
         <FairyTale
           isGuest={userId === "guest"}
-          content={"ddjhfhfjfkfkgkjg"}
-        //  {fairyTaleData?.content}
+          content={fairyTaleData?.content}
           loading={isLoading}
           title={fairyTaleData?.title}
           buttons={buttons}
